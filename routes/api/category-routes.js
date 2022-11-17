@@ -10,14 +10,14 @@ router.get('/', async (req, res) => {
     const CategoryData = await Category.findAll(
       {
         include: {
-          models: Product,
+          model: Product,
           attributes: ['id', 'product_name', 'price', 'stock', 'category_id']
         }
       }
     );
     res.status(200).json(CategoryData);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 
 });
@@ -31,14 +31,14 @@ router.get('/:id', async (req, res) => {
           id: req.params.id
         },
         include: {
-          models: Product,
+          model: Product,
           attributes: ['id', 'product_name', 'price', 'stock', 'category_id']
         }
       },
     );
     res.status(200).json(CategoryData);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 
 });
@@ -48,12 +48,12 @@ router.post('/', async (req, res) => {
   try {
     const CategoryData = await Category.create(
       {
-        category_name: req.params.category_name
+        category_name: req.body.category_name
       },
     );
     res.status(200).json(CategoryData);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 
@@ -68,7 +68,7 @@ router.put('/:id', async (req, res) => {
     )
     res.status(200).json(CategoryData);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 
@@ -88,7 +88,7 @@ router.delete('/:id', async (req, res) => {
 
     res.status(200).json(CategoryData);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 

@@ -10,10 +10,9 @@ router.get('/', async (req, res) => {
   try {
     const productData = await Product.findAll(
       {
-        attributes: ['id', 'product_name', 'price', 'stock'],
         include: [
           {
-            models: Category,
+            model: Category,
             attributes: ['category_name']
           },
           {
@@ -23,9 +22,10 @@ router.get('/', async (req, res) => {
         ]
       }
     );
+    console.log(productData)
     res.status(200).json(productData);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 
@@ -42,7 +42,7 @@ router.get('/:id', async (req, res) => {
         attributes: ['id', 'product_name', 'price', 'stock'],
         include: [
           {
-            models: Category,
+            model: Category,
             attributes: ['category_name']
           },
           {
@@ -54,7 +54,7 @@ router.get('/:id', async (req, res) => {
     );
     res.status(200).json(productData);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 
@@ -80,12 +80,12 @@ router.post('/', async (req, res) => {
           return ProductTag.bulkCreate(productTagIdArr);
         }
         // if no product tags, just respond
-        res.status(200).json(product);
+        res.status(200).json(productData);
       })
       .then((productTagIds) => res.status(200).json(productTagIds))
   } catch (err) {
     console.log(err);
-    res.status(400).json(err);
+    res.status(500).json(err);
   };
 });
 
@@ -128,7 +128,7 @@ router.put('/:id', async (req, res) => {
       .then((updatedProductTags) => res.json(updatedProductTags))
   } catch (err) {
     console.log(err);
-    res.status(400).json(err);
+    res.status(500).json(err);
   };
 });
 
